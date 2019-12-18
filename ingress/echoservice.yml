@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: echoheaders
-        image: gcr.io/google_containers/echoserver:1.0
+        image: brndnmtthws/nginx-echo-headers:latest
         ports:
         - containerPort: 8080
 ---

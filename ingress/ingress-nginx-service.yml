@@ -13,3 +13,7 @@ spec:
       targetPort: 59437
       protocol: TCP
       name: tcp-testport 
+    - port: 8084
+      targetPort: 5001
+      protocol: TCP
+      name: tcp-testport2 

@@ -45,32 +45,30 @@ apiVersion: v1
 kind: Service
 metadata:
   name: optract-ipfs-gateway
+  labels:
+    app: optract-ipfs-gateway
 spec:
   selector:
     app: optract-ipfs
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: ipfs
       protocol: TCP
       port: 5001
-      targetPort: 5001
-    - name: ipfs-gate
-      protocol: TCP
-      port: 8080
-      targetPort: 8080
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: optract-ipfs-rules
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
-spec:
-  rules:
-  - host: optract.lan
-    http:
-      paths:
-      - path: /ipfs/.*
-        backend:
-          serviceName: optract-ipfs-gateway
-          servicePort: 8080
+      nodePort: 30123
+#---
+#apiVersion: networking.k8s.io/v1beta1
+#kind: Ingress
+#metadata:
+#  name: optract-ipfs-rules
+#  annotations:
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+#spec:
+#  rules:
+#  - host: optract.lan
+#    http:
+#      paths:
+#      - path: /ipfs/.*
+#        backend:
+#          serviceName: optract-ipfs-gateway
+#          servicePort: 8080

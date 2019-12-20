@@ -18,8 +18,8 @@ spec:
           image: infwonder/optract-go-ipfs:k8s-dev
           imagePullPolicy: Always
           ports:
-            - containerPort: 4001
             - containerPort: 8080
+            - containerPort: 5001
           volumeMounts:
             - name: ipfslist-config
               mountPath: /data/ipfs/config
@@ -50,9 +50,13 @@ spec:
     app: optract-ipfs
   type: ClusterIP
   ports:
-    - name: http
+    - name: ipfs
       protocol: TCP
-      port: 80
+      port: 5001
+      targetPort: 5001
+    - name: ipfs-gate
+      protocol: TCP
+      port: 8080
       targetPort: 8080
 ---
 apiVersion: networking.k8s.io/v1beta1
@@ -69,5 +73,4 @@ spec:
       - path: /ipfs/.*
         backend:
           serviceName: optract-ipfs-gateway
-          servicePort: 80
-
+          servicePort: 8080

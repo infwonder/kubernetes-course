@@ -79,6 +79,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: tcp-services
+data:
+  8083: "default/optract-service:45054"
 ---
 kind: ConfigMap
 apiVersion: v1

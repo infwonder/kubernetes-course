@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: optract-restful
-          image: infwonder/optract-restful:k8s-dev
+          image: infwonder/optract-restful
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

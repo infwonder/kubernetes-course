@@ -42,7 +42,7 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-  - host: optract.lan
+  - host: api.aws.optract.com
     http:
       paths:
       - path: /articles
@@ -61,7 +61,7 @@ spec:
         backend:
           serviceName: optract-api-service
           servicePort: 80
-      - path: /article/cache
+      - path: /articles/cache
         backend:
           serviceName: optract-api-service
           servicePort: 80

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoonavigator-test
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: zoonavigator
+  template:
+    metadata:
+      name: zoonavigator
+      labels:
+        app: zoonavigator
+    spec:
+      containers:
+        - name: zoonavigator
+          image: elkozmon/zoonavigator
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zoonavigator-test-svc
+spec:
+  selector:
+    app: zoonavigator
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9001
+      nodePort: 30309
+      targetPort: 9000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: zoonavigator-test-rancher-rules
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+  - host: k8s-sandbox.prod.comcast.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: zoonavigator-test-svc
+          servicePort: 9001

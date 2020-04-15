@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: "selfsigned-issuer"
+#    nginx.ingress.kubernetes.io/rewrite-target: /$1
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: rook-edgefs-ui-rules
+  namespace: rook-edgefs
+spec:
+  rules:
+  - host: k8s-sandbox.prod.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: rook-edgefs-ui
+          servicePort: 3000
+        path: /
+  tls:
+  - hosts:
+    - k8s-sandbox.prod.comcast.net
+    secretName: rook-edgefs-ui-cert

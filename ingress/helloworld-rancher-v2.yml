@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: helloworld-rancher-deployment
+  name: helloworld2-rancher-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helloworld-rancher
+      app: helloworld2-rancher
   template:
     metadata:
       labels:
-        app: helloworld-rancher
+        app: helloworld2-rancher
     spec:
       containers:
       - name: k8s-demo
-        image: wardviaene/k8s-demo:latest
+        image: wardviaene/k8s-demo:v2
         ports:
         - name: nodejs-port
           containerPort: 3000
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworld-rancher
+  name: helloworld2-rancher
 spec:
   type: NodePort
   ports:
@@ -31,12 +31,12 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: helloworld-rancher
+    app: helloworld2-rancher
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: helloworld-rancher-rules
+  name: helloworld2-rancher-rules
   annotations:
     cert-manager.io/issuer: "selfsigned-issuer" 
     nginx.ingress.kubernetes.io/use-regex: "true"

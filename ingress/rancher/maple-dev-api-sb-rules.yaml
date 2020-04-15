@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: maple-api-dev-rules
+  namespace: maple-dev
+spec:
+  rules:
+  - host: k8s-sandbox.prod.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: mapleapi-web
+          servicePort: 80
+        path: /sb/(.*)
+      - backend:
+          serviceName: helloworld2-rancher
+          servicePort: 80
+        path: /lb/(.*)
+  tls:
+  - hosts:
+    - k8s-sandbox.prod.comcast.net
+    secretName: mapleapi-web-dev-cert

@@ -1,0 +1,27 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: helloworld-rancher-rules
+  annotations:
+    cert-manager.io/issuer: "selfsigned-issuer"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - host: k8s-sandbox.prod.comcast.net
+    http:
+      paths:
+      - path: /v1/(.*)
+        backend:
+          serviceName: helloworld-rancher
+          servicePort: 80
+      - path: /v2/(.*)
+        backend:
+          serviceName: helloworld2-rancher
+          servicePort: 80
+  tls: # < placing a host in the TLS config will indicate a certificate should be created
+  - hosts:
+    - k8s-sandbox.prod.comcast.net
+    secretName: sandbox-helloworld-cert
+

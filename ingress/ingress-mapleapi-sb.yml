@@ -1,0 +1,18 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mapleapi-sb-rules
+  namespace: maple-dev
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - host: dev-api.maple.comcast.net
+    http:
+      paths:
+      - path: /sb/(.*)
+        backend:
+          serviceName: mapleapi-web
+          servicePort: 443

@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mapleapi-prod-hc-ingress
+  namespace: maple-prod
+spec:
+  rules:
+  - host: api-ch2.maple.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: mapleapi-prod-svc
+          servicePort: 80
+        path: /

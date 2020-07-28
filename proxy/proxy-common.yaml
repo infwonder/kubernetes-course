@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nfs-proxy
   name: nfs-proxy
-  namespace: default
+  namespace: maple-staging
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

@@ -1,0 +1,30 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mapleui-staging-hc-ingress-new
+  namespace: maple-staging
+spec:
+  rules:
+  - host: ui-ho.maple.comcast.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: mapleui-staging-svc
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mapleapi-staging-hc-ingress-new
+  namespace: maple-staging
+spec:
+  rules:
+  - host: api-ho.maple.comcast.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: mapleapi-staging-svc
+          servicePort: 80

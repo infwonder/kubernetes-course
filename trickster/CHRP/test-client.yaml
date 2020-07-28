@@ -3,26 +3,21 @@ kind: Deployment
 metadata:
   annotations:
   labels:
-    app: pv-proxy
-  name: kpipe-pv-proxy
-  namespace: kpipe
+    app: endpoint-tester
+  name: endpoint-tester
+  namespace: trickster-test
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: pv-proxy
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: endpoint-tester
   template:
     metadata:
       annotations:
       labels:
-        app: pv-proxy
+        app: endpoint-tester
     spec:
       containers:
       - command:
@@ -33,20 +28,11 @@ spec:
         imagePullPolicy: IfNotPresent
         name: shell
         resources: {}
+        securityContext:
+          privileged: true
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /kpipe/certs
-          name: my-kpipe-pvc
-          subPath: kpipe/certs
-        - mountPath: /kpipe/jobs
-          name: my-kpipe-pvc
-          subPath: kpipe/jobs
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
-      volumes:
-      - name: my-kpipe-pvc
-        persistentVolumeClaim:
-          claimName: maple-config

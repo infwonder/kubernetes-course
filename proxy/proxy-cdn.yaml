@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   annotations:
   labels:
-    app: pv-proxy
-  name: kpipe-pv-proxy
-  namespace: kpipe
+    app: debug-cli
+  name: debug-cli 
+  namespace: maple-develop
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: pv-proxy
+      app: debug-cli
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -22,31 +22,22 @@ spec:
     metadata:
       annotations:
       labels:
-        app: pv-proxy
+        app: debug-cli
     spec:
       containers:
       - command:
         - bin/bash
         - -c
         - while true; do sleep 1; done
-        image: centos:7
+        image: hub.comcast.net/ipcdn/magma:debug-cli
         imagePullPolicy: IfNotPresent
         name: shell
         resources: {}
+        securityContext:
+          privileged: true
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /kpipe/certs
-          name: my-kpipe-pvc
-          subPath: kpipe/certs
-        - mountPath: /kpipe/jobs
-          name: my-kpipe-pvc
-          subPath: kpipe/jobs
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
-      volumes:
-      - name: my-kpipe-pvc
-        persistentVolumeClaim:
-          claimName: maple-config

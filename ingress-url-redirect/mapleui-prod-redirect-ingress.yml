@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://maple.comcast.net
+  name: mapleui-staging-redirect-ingress
+  namespace: maple-staging
+spec:
+  rules:
+  - host: www.maple.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: mapleui-staging-svc
+          servicePort: 80
+        path: /

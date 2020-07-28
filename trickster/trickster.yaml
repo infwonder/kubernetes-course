@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: trickster-test
+  name: trickster-test
+  namespace: trickster-test 
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: trickster-test
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: trickster-test
+    spec:
+      containers:
+        - name: trickster-test
+          image: tricksterio/trickster:1.0.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: trickster-port
+              containerPort: 8480         

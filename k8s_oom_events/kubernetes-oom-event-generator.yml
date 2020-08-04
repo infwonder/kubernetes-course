@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: kubernetes-oom-event-generator
+  name: kubernetes-oom-event-generator
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      run: kubernetes-oom-event-generator
+  template:
+    metadata:
+      labels:
+        run: kubernetes-oom-event-generator
+    spec:
+      containers:
+      - env:
+        - name: VERBOSE
+          value: "2"
+        image: xingse/kubernetes-oom-event-generator
+        imagePullPolicy: Always
+        name: kubernetes-oom-event-generator
+      serviceAccountName: kubernetes-oom-event-generator

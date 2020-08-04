@@ -5,7 +5,7 @@ metadata:
   labels:
     app: debug-cli
   name: debug-cli 
-  namespace: maple-develop
+  namespace: magma-develop
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -32,7 +32,11 @@ spec:
         image: hub.comcast.net/ipcdn/magma:debug-cli
         imagePullPolicy: IfNotPresent
         name: shell
-        resources: {}
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            memory: 128Mi 
         securityContext:
           privileged: true
         terminationMessagePath: /dev/termination-log

@@ -1,0 +1,21 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kube-metrics-ingress 
+  namespace: kube-system
+  annotations:
+    cert-manager.io/issuer: "selfsigned-issuer"
+spec:
+  rules:
+  - host: maple-k8s-metric.cdnlab.comcast.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: metrics-server 
+          servicePort: 443
+  tls: # < placing a host in the TLS config will indicate a certificate should be created
+  - hosts:
+    - maple-k8s-metric.cdnlab.comcast.net 
+    secretName: maple-k8s-metric-cert

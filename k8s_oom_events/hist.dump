@@ -1,0 +1,500 @@
+ 2620  ls
+ 2621  cd K8s/
+ 2622  ls
+ 2623  vi 02-k8s-deployment.yml 
+ 2624  KUBECONFIG=~/.kube/config.cdnlab kubectl apply -f 02-k8s-deployment.yml -n magma-develop 
+ 2625  KUBECONFIG=~/.kube/config.cdnlab kubectl exec -it pod/magma-mnode-cbcfdc5c-p9sws -n magma-develop -- bash
+ 2626  ssh cdn-maple-ho-006.prod.comcast.net
+ 2627   ssh cdn-maple-ho-006.prod.comcast.net "sudo clickhouse-client -nm"
+ 2628  sudo --help
+ 2629   ssh cdn-maple-ho-006.prod.comcast.net "sudo -i -s clickhouse-client -nm"
+ 2630   ssh cdn-maple-ho-006.prod.comcast.net "sudo -s clickhouse-client -nm"
+ 2631  sudo --help
+ 2632   ssh cdn-maple-ho-006.prod.comcast.net 
+ 2633   ssh cdn-maple-ho-006.prod.comcast.net 
+ 2634  cd Projects/comcast/analytics/
+ 2635  ls
+ 2636  cd Magma_On_K8s/
+ 2637  ls
+ 2638  cd m
+ 2639  cd mnode/
+ 2640  ls
+ 2641  cd Docker/
+ 2642  ls
+ 2643  cp Dockerfile Dockerfile.common.cdn.proxy
+ 2644  vi Dockerfile.common.cdn.proxy 
+ 2645  docker build -f ./Dockerfile.common.cdn.proxy . -t hub.comcast.net/ipcdn/magma:debug-cli
+ 2646  docker ps
+ 2647  docker images|less
+ 2648  docker push hub.comcast.net/ipcdn/magma:debug-cli
+ 2649  clear
+ 2650  pwd
+ 2651  cd ..
+ 2652  cd ..
+ 2653  cd ..
+ 2654  cd Projects/comcast/analytics/
+ 2655  ls -lrt
+ 2656  cd ansible-pull/
+ 2657  ls
+ 2658  cd playbooks/
+ 2659  ls
+ 2660  cd roles/nrpe/
+ 2661  ls
+ 2662  cd templates/
+ 2663  ls
+ 2664  ls -lrt
+ 2665  vi magma_op5.cfg.j2 
+ 2666  pwd
+ 2667  ls -lrt
+ 2668  cp magma_op5.cfg.j2 ~/Projects/comcast/analytics/Magma_On_K8s/mnode/magma_op5.cfg
+ 2669  vi passwords.cfg.j2 
+ 2670  ls
+ 2671  cd ..
+ 2672  ls
+ 2673  cd tasks/
+ 2674  ls
+ 2675  vi main.yml 
+ 2676  ls
+ 2677  clear
+ 2678  cd Projects/comcast/analytics/
+ 2679  ls
+ 2680  cd ..
+ 2681  cd ..
+ 2682  cd k8s/
+ 2683  ls
+ 2684  cd sandbox/
+ 2685  ls
+ 2686  cd kubernetes-course/
+ 2687  ls
+ 2688  ls -lrt
+ 2689  cd cert-manager/
+ 2690  ls
+ 2691  vi selfsign.yml 
+ 2692  vi selfsign.yml 
+ 2693  KUBECONFIG=~/.kube/config.cdnlab kubectl apply -f selfsign.yml 
+ 2694  KUBECONFIG=~/.kube/config.cdnlab kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/deploy/manifests/00-crds.yaml
+ 2695  KUBECONFIG=~/.kube/config.cdnlab kubectl create namespace cert-manager
+ 2696  KUBECONFIG=~/.kube/config.cdnlab helm repo add jetstack https://charts.jetstack.io
+ 2697  KUBECONFIG=~/.kube/config.cdnlab helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v0.12.0
+ 2698  KUBECONFIG=~/.kube/config.cdnlab kubectl get all -n cert-manager
+ 2699  ls
+ 2700  KUBECONFIG=~/.kube/config.cdnlab kubectl apply -f selfsign.yml 
+ 2701  KUBECONFIG=~/.kube/config.cdnlab kubectl get issuer -n maple-develop
+ 2702  exit
+ 2703  cd Projects/comcast/analytics/
+ 2704  cd chproxy_configs/
+ 2705  ls
+ 2706  ls -lrt
+ 2707  mkdir maple-load-balancer-migrate
+ 2708  cd maple-load-balancer-migrate/
+ 2709  ls
+ 2710  mkdir API UI
+ 2711  cd API/
+ 2712  ls
+ 2713  source ./cdnvault 60cb76c89a262e85b31e9fef14e2be4856af9d97
+ 2714  cd ..
+ 2715  cd ..
+ 2716  source ./cdnvault 60cb76c89a262e85b31e9fef14e2be4856af9d97
+ 2717  ls -lrt
+ 2718  cd maple-load-balancer-migrate/
+ 2719  ls
+ 2720  cd API/
+ 2721  ls
+ 2722  vault list secret/cdn-analytics/
+ 2723  vault list secret/cdn-analytics/maple/
+ 2724  vault list secret/cdn-analytics/maple/maple-api-prod
+ 2725  vault read secret/cdn-analytics/maple/maple-api-prod/server-ssl-crt-chain > maple-api-prod.crt
+ 2726  vi maple-api-prod.crt 
+ 2727  ls
+ 2728  cp maple-api-prod.crt maple-api-prod-server.crt
+ 2729  vi maple-api-prod-server.crt 
+ 2730  openssl x509 -in maple-api-prod-server.crt -noout -text|less
+ 2731  ls -lrt
+ 2732  vault list secret/cdn-analytics/maple/maple-api-prod
+ 2733  vault read secret/cdn-analytics/maple/maple-api-prod/server-ssl-key > maple-api-prod-server.key
+ 2734  ls -lrt
+ 2735  cat maple-api-prod-server.key 
+ 2736  ls
+ 2737  openssl x509 –noout –modulus –in maple-api-prod-server.crt | openssl md5
+ 2738  openssl x509 –noout –modulus –in maple-api-prod-server.key | openssl md5
+ 2739  openssl x509 –noout –modulus –in maple-api-prod-server.key | openssl md5
+ 2740  openssl x509 –noout –modulus –in maple-api-prod-server.crt | openssl md5
+ 2741  ls -lrt
+ 2742  zip maple-api-prod.zip maple-api-prod-server.*
+ 2743  ls -lrt
+ 2744  cd ..
+ 2745  ls
+ 2746  cd UI
+ 2747  ls
+ 2748  vault list secret/cdn-analytics/maple/
+ 2749  vault list secret/cdn-analytics/maple/maple-ui-prod
+ 2750  vault read secret/cdn-analytics/maple/maple-ui-prod/mapleui-ssl-certificate-chain > maple-ui-prod.crt
+ 2751  vault read secret/cdn-analytics/maple/maple-ui-prod/mapleui-ssl-key > maple-ui-prod-server.key
+ 2752  vi maple-ui-prod.crt 
+ 2753  ls -lrt
+ 2754  cp maple-ui-prod.crt maple-ui-prod-server.crt
+ 2755  vi maple-ui-prod-server.crt 
+ 2756  ls
+ 2757  ls -lrt
+ 2758  openssl x509 –noout –modulus –in maple-ui-prod-server.crt | openssl md5
+ 2759  openssl x509 –noout –modulus –in maple-ui-prod-server.key | openssl md5
+ 2760  ls
+ 2761  ls -lrt
+ 2762  cd ..
+ 2763  ls
+ 2764  cd API
+ 2765  ls
+ 2766  openssl x509 –noout –modulus –in maple-api-prod-server.key | openssl md5
+ 2767  openssl x509 –noout –modulus –in maple-api-prod-server.key | openssl md5 -
+ 2768  openssl x509 –noout –modulus –in maple-api-prod-server.key | openssl md5 
+ 2769  openssl x509 –noout –modulus –in maple-api-prod-server.key 
+ 2770  openssl x509 –noout –modulus –in maple-api-prod-server.key |less
+ 2771  openssl x509 –noout –modulus –in maple-api-prod-server.key -text|less
+ 2772  openssl x509 –noout –in maple-api-prod-server.key -text|less
+ 2773  openssl x509 –noout –in maple-api-prod-server.key --text
+ 2774  openssl x509 –in maple-api-prod-server.key -noout
+ 2775  openssl x509 –in maple-api-prod-server.key -noout -text
+ 2776  openssl rsa -modulus -noout -in maple-api-prod-server.key| openssl md5
+ 2777  openssl rsa -modulus -noout -in maple-api-prod-server.key|less
+ 2778  openssl x509 -noout -modulus -in maple-api-prod-server.crt 
+ 2779  openssl x509 -noout -modulus -in maple-api-prod-server.crt |md5sum -
+ 2780  openssl x509 -noout -modulus -in maple-api-prod-server.key
+ 2781  openssl rsa -noout -modulus -in maple-api-prod-server.key
+ 2782  openssl rsa -noout -modulus -in maple-api-prod-server.key 
+ 2783  vi maple-api-prod-server.key 
+ 2784  openssl rsa -noout -modulus -in maple-api-prod-server.key 
+ 2785  openssl x509 -noout -modulus -in maple-api-prod-server.crt |md5sum -
+ 2786  openssl rsa -noout -modulus -in maple-api-prod-server.key |md5sum -
+ 2787  cd ..
+ 2788  cd UI/
+ 2789  l
+ 2790  ks
+ 2791  ls
+ 2792  openssl rsa -noout -modulus -in maple-ui-prod-server.key |md5sum -
+ 2793  ls
+ 2794  vi maple-ui-prod-server.key 
+ 2795  openssl rsa -noout -modulus -in maple-ui-prod-server.key |md5sum -
+ 2796  openssl x509 -noout -modulus -in maple-ui-prod-server.crt |md5sum -
+ 2797  ls -lrt
+ 2798  ls ../API/
+ 2799  zip maple-ui-prod.zip maple-ui-prod-server.*
+ 2800  ls -lrt
+ 2801  exit
+ 2802  cd Projects/comcast/analytics/maple-api-lb
+ 2803  ls
+ 2804  vi Jenkins/
+ 2805  cd Jenkins/
+ 2806  clear
+ 2807  ls
+ 2808  vi -R Jenkinsfile.prod.v2 
+ 2809  cd ..
+ 2810  cd ..
+ 2811  cd maple-ui/Jenkins/
+ 2812  ls
+ 2813  cat Jenkinsfile.lb.prod.v2 
+ 2814  cd ..
+ 2815  cd ..
+ 2816  ls -lrt
+ 2817  less kpipe.as.describe.dump 
+ 2818  less kpipe.as.describe.dump 
+ 2819  less kpipe.as.describe.dump 
+ 2820  ls -lrt
+ 2821  cd kpipe-k8s-deploy/
+ 2822  ls
+ 2823  ls -lrt
+ 2824  cd jobs/
+ 2825  ls
+ 2826  cd common/
+ 2827  ls
+ 2828  cd ..
+ 2829  cd ..
+ 2830  cd ..
+ 2831  sh ./slb-endpoint-checks.sh 
+ 2832  cd kpipe-k8s-deploy/jobs/common/
+ 2833  ls
+ 2834  ls -lrt
+ 2835  vi comcast_ch_nodes_as.yaml 
+ 2836  cd ..
+ 2837  cd ..
+ 2838  cd ..
+ 2839  ls -lrt
+ 2840  vi slb-endpoint-checks.sh 
+ 2841  UI_AS_OUT=Ashburn
+ 2842  DC='AS'
+ 2843  echo ${UI_${DC}_OUT}
+ 2844  echo $UI_`$DC`_OUT
+ 2845  echo $(UI_`$DC`_OUT)
+ 2846  echo $UI_AS_OUT
+ 2847  echo $DC
+ 2848  vi slb-endpoint-checks.sh 
+ 2849  declare -A testvars=()
+ 2850  declare -a testvars=()
+ 2851  testvars['UI_AS_OUT']='Ashburn'
+ 2852  echo testvars["UI_${DC}_OUT"]
+ 2853  echo $testvars["UI_${DC}_OUT"]
+ 2854  echo ${testvars["UI_${DC}_OUT"]}
+ 2855  echo ${testvars["UI_${DCd}_OUT"]}
+ 2856  unset testvars
+ 2857  echo ${testvars["UI_${DC}_OUT"]}
+ 2858  DC=AS
+ 2859  echo $DC
+ 2860  declare UI_${DC}_OUT=Ashburn
+ 2861  echo $UI_AS_OUT
+ 2862  echo $UI_${AS}_OUT
+ 2863  echo $UI_${DC}_OUT
+ 2864  echo ${UI_${DC}_OUT}
+ 2865  varname=UI_${DC}_OUT
+ 2866  echo ${!varname}
+ 2867  vi slb-endpoint-checks.sh 
+ 2868  vi slb-endpoint-checks.sh 
+ 2869  vi slb-endpoint-checks.sh 
+ 2870  sh ./slb-endpoint-checks.sh 
+ 2871  vi slb-endpoint-checks.sh 
+ 2872  sh ./slb-endpoint-checks.sh 
+ 2873  vi slb-endpoint-checks.sh 
+ 2874  sh ./slb-endpoint-checks.sh 
+ 2875  vi slb-endpoint-checks.sh 
+ 2876  sh ./slb-endpoint-checks.sh 
+ 2877  vi slb-endpoint-checks.sh 
+ 2878  sh ./slb-endpoint-checks.sh 
+ 2879  vi slb-endpoint-checks.sh 
+ 2880  sh ./slb-endpoint-checks.sh 
+ 2881  vi slb-endpoint-checks.sh 
+ 2882  sh ./slb-endpoint-checks.sh 
+ 2883  vi slb-endpoint-checks.sh 
+ 2884  sh ./slb-endpoint-checks.sh 
+ 2885  vi slb-endpoint-checks.sh 
+ 2886  sh ./slb-endpoint-checks.sh 
+ 2887  vi slb-endpoint-checks.sh 
+ 2888  sh ./slb-endpoint-checks.sh 
+ 2889  vi slb-endpoint-checks.sh 
+ 2890  sh ./slb-endpoint-checks.sh 
+ 2891  vi slb-endpoint-checks.sh 
+ 2892  sh ./slb-endpoint-checks.sh 
+ 2893  vi slb-endpoint-checks.sh 
+ 2894  sh ./slb-endpoint-checks.sh 
+ 2895  vi slb-endpoint-checks.sh 
+ 2896  sh ./slb-endpoint-checks.sh 
+ 2897  vi slb-endpoint-checks.sh 
+ 2898  sh ./slb-endpoint-checks.sh 
+ 2899  vi slb-endpoint-checks.sh 
+ 2900  sh ./slb-endpoint-checks.sh 
+ 2901  vi slb-endpoint-checks.sh 
+ 2902  sh ./slb-endpoint-checks.sh 
+ 2903  vi slb-endpoint-checks.sh 
+ 2904  sh ./slb-endpoint-checks.sh 
+ 2905  vi slb-endpoint-checks.sh 
+ 2906  sh ./slb-endpoint-checks.sh 
+ 2907  vi slb-endpoint-checks.sh 
+ 2908  sh ./slb-endpoint-checks.sh 
+ 2909  vi slb-endpoint-checks.sh 
+ 2910  sh ./slb-endpoint-checks.sh 
+ 2911  vi slb-endpoint-checks.sh 
+ 2912  sh ./slb-endpoint-checks.sh 
+ 2913  vi slb-endpoint-checks.sh 
+ 2914  sh ./slb-endpoint-checks.sh 
+ 2915  vi slb-endpoint-checks.sh 
+ 2916  sh ./slb-endpoint-checks.sh 
+ 2917  vi slb-endpoint-checks.sh 
+ 2918  sh ./slb-endpoint-checks.sh 
+ 2919  vi slb-endpoint-checks.sh 
+ 2920  sh ./slb-endpoint-checks.sh 
+ 2921  vi slb-endpoint-checks.sh 
+ 2922  sh ./slb-endpoint-checks.sh 
+ 2923  vi slb-endpoint-checks.sh 
+ 2924  sh ./slb-endpoint-checks.sh 
+ 2925  vi slb-endpoint-checks.sh 
+ 2926  sh ./slb-endpoint-checks.sh 
+ 2927  vi slb-endpoint-checks.sh 
+ 2928  sh ./slb-endpoint-checks.sh 
+ 2929  vi slb-endpoint-checks.sh 
+ 2930  sh ./slb-endpoint-checks.sh 
+ 2931  vi slb-endpoint-checks.sh 
+ 2932  sh ./slb-endpoint-checks.sh 
+ 2933  vi slb-endpoint-checks.sh 
+ 2934  sh ./slb-endpoint-checks.sh 
+ 2935  vi slb-endpoint-checks.sh 
+ 2936  sh ./slb-endpoint-checks.sh 
+ 2937  vi slb-endpoint-checks.sh 
+ 2938  sh ./slb-endpoint-checks.sh 
+ 2939  vi slb-endpoint-checks.sh 
+ 2940  sh ./slb-endpoint-checks.sh 
+ 2941  vi slb-endpoint-checks.sh 
+ 2942  sh ./slb-endpoint-checks.sh |
+ 2943  sh ./slb-endpoint-checks.sh 
+ 2944  vi slb-endpoint-checks.sh 
+ 2945  sh ./slb-endpoint-checks.sh 
+ 2946  sh ./slb-endpoint-checks.sh |less
+ 2947  ls
+ 2948  ls -lrt
+ 2949  vi slb-endpoint-checks.sh 
+ 2950  sh ./slb-endpoint-checks.sh 
+ 2951  sh ./slb-endpoint-checks.sh |less
+ 2952  vi slb-endpoint-checks.sh 
+ 2953  sh ./slb-endpoint-checks.sh |less
+ 2954  vi slb-endpoint-checks.sh 
+ 2955  sh ./slb-endpoint-checks.sh |less
+ 2956  vi slb-endpoint-checks.sh 
+ 2957  sh ./slb-endpoint-checks.sh |less
+ 2958  vi slb-endpoint-checks.sh 
+ 2959  sh ./slb-endpoint-checks.sh |less
+ 2960  vi slb-endpoint-checks.sh 
+ 2961  sh ./slb-endpoint-checks.sh |less
+ 2962  vi slb-endpoint-checks.sh 
+ 2963  sh ./slb-endpoint-checks.sh 
+ 2964  vi slb-endpoint-checks.sh 
+ 2965  sh ./slb-endpoint-checks.sh 
+ 2966  vi slb-endpoint-checks.sh 
+ 2967  sh ./slb-endpoint-checks.sh 
+ 2968  vi slb-endpoint-checks.sh 
+ 2969  sh ./slb-endpoint-checks.sh 
+ 2970  vi slb-endpoint-checks.sh 
+ 2971  vi slb-endpoint-checks.sh 
+ 2972  sh ./slb-endpoint-checks.sh 
+ 2973  vi slb-endpoint-checks.sh 
+ 2974  sh ./slb-endpoint-checks.sh 
+ 2975  ls -lrt
+ 2976  git status
+ 2977  vi slb-endpoint-checks.sh 
+ 2978  sh ./slb-endpoint-checks.sh 
+ 2979  vi slb-endpoint-checks.sh 
+ 2980  sh ./slb-endpoint-checks.sh > test
+ 2981  vi test
+ 2982  ls
+ 2983  ls -lrt
+ 2984  rm test
+ 2985  vi slb-endpoint-checks.sh 
+ 2986  env
+ 2987  vi slb-endpoint-checks.sh 
+ 2988  sh ./slb-endpoint-checks.sh > test
+ 2989  less test
+ 2990  ls
+ 2991  ls -lrt
+ 2992  rm test
+ 2993  vi slb-endpoint-checks.sh 
+ 2994  sh ./slb-endpoint-checks.sh 
+ 2995  vi slb-endpoint-checks.sh 
+ 2996  curl -kv https://96.99.226.133 -H "Host: maple.comcast.net" 2>&1
+ 2997  curl -kv https://96.99.226.133 -H "Host: maple.comcast.net" 2>&1|less
+ 2998  vi slb-endpoint-checks.sh 
+ 2999  curl -kv https://96.99.226.133 -H "Host: maple.comcast.net" 2>&1
+ 3000  data=`curl -kv https://96.99.226.133 -H "Host: maple.comcast.net" 2>&1`
+ 3001  echo $data
+ 3002  echo $data|less
+ 3003  exit
+ 3004  ls -lrt
+ 3005  ping -c1 maple.comcast.net
+ 3006  ping -c1 maple.comcast.net
+ 3007  ping -c1 maple.comcast.net
+ 3008  ping -c1 maple.comcast.net
+ 3009  clear
+ 3010  kubectl get node
+ 3011  exit
+ 3012  cd Projects/k8s/sandbox/
+ 3013  ls
+ 3014  cd kubernetes-course/
+ 3015  ls -lrt
+ 3016  cd cert-manager/
+ 3017  ls
+ 3018  ls -lrt
+ 3019  less mapleapi-sb-cert.yaml 
+ 3020  ls
+ 3021  ls -rtl
+ 3022  cat selfsign.yml 
+ 3023  cd ..
+ 3024  ls
+ 3025  ls -lrt
+ 3026  cd ingress
+ 3027  ls
+ 3028  ls -lrt
+ 3029  vi helloworld-v1.yml 
+ 3030  ls
+ 3031  grep -ir annotation -A1
+ 3032  grep -ir annotation -A1 *
+ 3033  cd ..
+ 3034  cd ..
+ 3035  exit
+ 3036  cd Projects/k8s/sandbox/
+ 3037  cd kubernetes-course/
+ 3038  ls -lrt
+ 3039  cd ingress-url-redirect/
+ 3040  ls -lrt
+ 3041  cat mapleui-prod-redirect-ingress.yml 
+ 3042  pwd
+ 3043  curl -v https://maple.comcast.net 2>&1|less
+ 3044  curl -v https://www.maple.comcast.net 2>&1|less
+ 3045  curl -v https://maple.comcast.net 2>&1|less
+ 3046  curl -kv https://96.99.226.134 -H "Host: www.maple.comcast.net" 2>&1|less
+ 3047  curl -kv https://96.99.226.134 -H "Host: maple.comcast.net" 2>&1|less
+ 3048  curl -kv https://96.99.226.134 -H "Host: maple.comcast.net" 2>&1|less
+ 3049  curl -kv https://96.99.226.134 -H "Host: www.maple.comcast.net" 2>&1|less
+ 3050  curl -kv https://96.99.226.133 -H "Host: www.maple.comcast.net" 2>&1|less
+ 3051  curl -kv https://96.99.226.133 -H "Host: www.maple.comcast.net" 2>&1|less
+ 3052  curl -kv https://96.99.226.133 -H "Host: maple.comcast.net" 2>&1|less
+ 3053  curl -kv https://96.99.226.132 -H "Host: maple.comcast.net" 2>&1|less
+ 3054  curl -kv https://96.99.226.132 -H "Host: www.maple.comcast.net" 2>&1|less
+ 3055  cd ..
+ 3056  ls
+ 3057  ls -lrt
+ 3058  cd proxy/
+ 3059  ls
+ 3060  ls -lrt
+ 3061  vi proxy-cdn.yaml 
+ 3062  KUBECONFIG=~/.kube/config.cdnlab kubectl apply -f proxy-cdn.yaml -n magma-develop
+ 3063  vi proxy-cdn.yaml 
+ 3064  KUBECONFIG=~/.kube/config.cdnlab kubectl apply -f proxy-cdn.yaml -n magma-develop
+ 3065  vi proxy-cdn.yaml 
+ 3066  KUBECONFIG=~/.kube/config.cdnlab kubectl apply -f proxy-cdn.yaml -n magma-develop
+ 3067  cd ..
+ 3068  ls -lrt
+ 3069  cd k8s_oom_events/
+ 3070  ls
+ 3071  ls -lrt
+ 3072  cd ..
+ 3073  git status
+ 3074  git add .
+ 3075  git status
+ 3076  git commit -a -m"update 08/04/2020"
+ 3077  git push origin master
+ 3078  ls -lrt
+ 3079  cd k8s_oom_events/
+ 3080  ls
+ 3081  ls -lrt
+ 3082  cat README.md 
+ 3083  ls
+ 3084  ls -l
+ 3085  cd local/
+ 3086  ls
+ 3087  ls -la
+ 3088  cat env 
+ 3089  cd ..
+ 3090  ls
+ 3091  cat event_list 
+ 3092  ls
+ 3093  ls -l
+ 3094  cat cluster-role.yml 
+ 3095  ls
+ 3096  cat README.md 
+ 3097  kubectl create serviceaccount kubernetes-oom-event-generator \
+ 3098  kubectl get node
+ 3099  kubectl create serviceaccount kubernetes-oom-event-generator --namespace=kube-system
+ 3100  kubectl create -f cluster-role.yml 
+ 3101  cat cluster-role.yml 
+ 3102  kubectl create clusterrolebinding xing:controller:kubernetes-oom-event-generator   --clusterrole=xing:controller:kubernetes-oom-event-generator \
+ 3103  ls
+ 3104  cat kubernetes-oom-event-generator.yml 
+ 3105  kubectl create clusterrolebinding cdn:maple:kubernetes-oom-event-generator --clusterrole=kubernetes-oom-event-generator --serviceaccount=kube-system:kubernetes-oom-event-generator
+ 3106  ls
+ 3107  cat kubernetes-oom-event-generator.yml 
+ 3108  kubectl apply -f kubernetes-oom-event-generator.yml 
+ 3109  kubectl get all -n kube-system
+ 3110  KUBECONFIG=~/.kube/config.cdnlab kubectl get node -o wide
+ 3111  KUBECONFIG=~/.kube/config.cdnlab kubectl get node -o wide|awk '{print $6}'
+ 3112  host k8slab.cdnlab.comcast.net
+ 3113  KUBECONFIG=~/.kube/config.cdnlab kubectl get all -n magma-develop
+ 3114  KUBECONFIG=~/.kube/config.cdnlab kubectl get pod -n magma-develop
+ 3115  KUBECONFIG=~/.kube/config.cdnlab kubectl exec -it -n magma-develop pod/magma-mnode-7d5c5c7dbb-lcnxq  -- bash
+ 3116  KUBECONFIG=~/.kube/config.cdnlab kubectl exec -it -n magma-develop pod/magma-mnode-7d5c5c7dbb-lcnxq  -- bash
+ 3117  KUBECONFIG=~/.kube/config.cdnlab kubectl exec -it -n magma-develop pod/magma-mnode-5c4fcbdf6d-9m6g6 -- bash
+ 3118  ls -lrt
+ 3119  history > hist.dump

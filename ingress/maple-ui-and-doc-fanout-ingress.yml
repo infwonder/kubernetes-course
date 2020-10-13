@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: selfsigned-issuer
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  name: mapleapi-develop-ingress
+  namespace: maple-develop
+spec:
+  rules:
+  - host: dev-api.cdnlab.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: maple-ui-docs-serv
+          servicePort: 80
+        path: /doc/(.*)
+      - backend:
+          serviceName: mapleapi-develop-svc
+          servicePort: 80
+        path: /(.*)
+  tls:
+  - hosts:
+    - dev-api.cdnlab.comcast.net
+    secretName: mapleapi-selfsigned-cert

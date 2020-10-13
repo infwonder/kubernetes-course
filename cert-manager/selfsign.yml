@@ -3,6 +3,6 @@ apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
   name: selfsigned-issuer
-  namespace: magma-develop 
+  namespace: maple-airflow-prod 
 spec:
   selfSigned: {}

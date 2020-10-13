@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nfs-proxy
   name: nfs-proxy
-  namespace: maple-staging
+  namespace: maple-airflow-prod
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -28,8 +28,17 @@ spec:
       - command:
         - bin/bash
         - -c
-        - while true; do sleep 1; done
+        - mkdir -p /home/airflow/airflow && while true; do sleep 1; done
         image: centos:7
+        env:
+          - name: AIRFLOW_HOME
+            value: "Test out"
+        volumeMounts:
+          - mountPath: /home/airflow/airflow/airflow.cfg
+            name: airflowconfigs
+            subPath: airflow.cfg
+          - mountPath: /home/airflow/airflow/dags
+            name: airflowdags
         imagePullPolicy: IfNotPresent
         name: shell
         resources: {}
@@ -41,3 +50,14 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: airflowconfigs
+        configMap:
+          name: airflow-config
+      - name: airflowdags
+        persistentVolumeClaim:
+          claimName: airflow-dags

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
   labels:
-    app: pv-proxy
+    app: kpipe-pv-proxy
   name: kpipe-pv-proxy
   namespace: kpipe
 spec:
@@ -12,7 +12,7 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: pv-proxy
+      app: kpipe-pv-proxy
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -22,8 +22,10 @@ spec:
     metadata:
       annotations:
       labels:
-        app: pv-proxy
+        app: kpipe-pv-proxy
     spec:
+      nodeSelector:
+        nodeKey: targeted
       containers:
       - command:
         - bin/bash
@@ -42,6 +44,8 @@ spec:
         - mountPath: /kpipe/jobs
           name: my-kpipe-pvc
           subPath: kpipe/jobs
+        - mountPath: /longhorn
+          name: my-longhorn-pvc
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -50,3 +54,6 @@ spec:
       - name: my-kpipe-pvc
         persistentVolumeClaim:
           claimName: maple-config
+      - name: my-longhorn-pvc
+        persistentVolumeClaim:
+          claimName: longhorn-fio-test-pvc

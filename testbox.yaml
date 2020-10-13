@@ -8,7 +8,7 @@ metadata:
   namespace: kpipe
 spec:
   progressDeadlineSeconds: 600
-  replicas: 2
+  replicas: 8 
   revisionHistoryLimit: 2
   selector:
     matchLabels:
@@ -37,8 +37,8 @@ spec:
           privileged: true
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-#      nodeSelector:
-#        nodeTag: newlyAdded
+      nodeSelector:
+        nodeTags: newlyAdded
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

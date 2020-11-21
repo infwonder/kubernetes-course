@@ -18,6 +18,11 @@ job, javaMemory, cluster, dryRun, vaultSync = sys.argv[1], sys.argv[2], sys.argv
 # Load KUBECONFIG
 kubeconfig = kubernetes.config.load_kube_config();
 
+# Hashicorp vault https api quick 101:
+# Login:
+# curl -v --request POST --data '{"token": "__BEARER_TOKEN_FOR_VAULT__" }' https://vault-ch.autobahn.comcast.com:8200/v1/auth/github_cdn-analytics/login |jq .auth.client_token
+# Access (LIST as example):
+# curl --request LIST -H "X-Vault-Token: __CLIENT_TOKEN_FROM_LOGIN__" https://vault-ch.autobahn.comcast.com:8200/v1/secret/cdn-analytics/kpipe/|jq .
 if vaultSync == 'true':
   # Login into Vault
   client = hvac.Client(url='https://or.vault.comcast.com')

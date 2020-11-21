@@ -1,6 +1,6 @@
 ### vault and kubernete api integration
 
-This is an exerise trying to understand how could we deploy to kubernetes combining KUBE and VAULT API. 
+This is an exercise to understand how to deploy to kubernetes programmatically with both kubernetes and VAULT API. 
 
 #### Requirement
 - python3

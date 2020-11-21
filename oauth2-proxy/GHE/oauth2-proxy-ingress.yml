@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: oauth2-proxy
+  namespace: kube-system
+  annotations:
+    cert-manager.io/issuer: "selfsigned-issuer"
+spec:
+  rules:
+  - host: authtest.cdnlab.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: oauth2-proxy
+          servicePort: 4180
+        path: /oauth2
+  tls:
+  - hosts:
+    - authtest.cdnlab.comcast.net
+    secretName: oauth-tls-authtest

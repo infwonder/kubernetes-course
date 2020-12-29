@@ -1,0 +1,17 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: thanos-query-ingress
+  namespace: cattle-monitoring-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: maple-thanos-query.cdnlab.comcast.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: thanos-query
+          servicePort: 9090

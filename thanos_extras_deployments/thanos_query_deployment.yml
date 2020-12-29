@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thanos-query
+  namespace: cattle-monitoring-system
+  labels:
+    app: thanos-query
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thanos-query
+  template:
+    metadata:
+      labels:
+        app: thanos-query
+    spec:
+      containers:
+      - name: thanos-query
+        image: quay.io/thanos/thanos:v0.17.2
+        args:
+        - query
+        - --http-address=0.0.0.0:19192
+        - --log.level=debug
+        - --store=dnssrv+_grpc._tcp.thanos-sidecar.cattle-monitoring-system.svc.cluster.local
+        ports:
+        - name: http
+          containerPort: 19192
+        - name: grpc
+          containerPort: 10901

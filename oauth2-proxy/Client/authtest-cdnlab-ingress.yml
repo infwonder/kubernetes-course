@@ -1,0 +1,20 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start?rd=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
+  creationTimestamp: "2020-10-19T17:46:43Z"
+  name: helloworld-authtest-rules
+  namespace: default
+spec:
+  rules:
+  - host: authtest.cdnlab.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: helloworld-authtest-svc
+          servicePort: 80
+        path: /

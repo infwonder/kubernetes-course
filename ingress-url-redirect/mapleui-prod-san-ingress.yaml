@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://www.maple.comcast.net
+  name: mapleui-prod-san-ingress
+  namespace: maple-prod
+spec:
+  rules:
+  - host: maple.comcast.net
+    http:
+      paths:
+      - backend:
+          serviceName: mapleui-prod-svc
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - maple.comcast.net
+    secretName: mapleui-lb-prod-cert
